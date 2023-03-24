@@ -52,8 +52,8 @@ def create_app():
    
     app.secret_key = b"\x18\xc4\xd0&\xfd\xf3\xd2\xa1\x11\x88p\xb8\xe6\x0f'\xbf"
 
-    DB_URL = f'postgresql+psycopg2://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PW")}@{os.getenv("POSTGRES_URL")}/{os.getenv("POSTGRES_DB")}'
-    app.config["SQLALCHEMY_DATABASE_URI"] = DB_URL
+    #DB_URL = f'postgresql+psycopg2://{os.getenv("POSTGRES_USER")}:{os.getenv("POSTGRES_PW")}@{os.getenv("POSTGRES_URL")}/{os.getenv("POSTGRES_DB")}'
+    #app.config["SQLALCHEMY_DATABASE_URI"] = DB_URL
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
@@ -76,8 +76,8 @@ def initialize_extensions(app):
     :param app: A Flask app object
     :return: None
     """
-    db.init_app(app)
-    migrate.init_app(app, db)
+    #db.init_app(app)
+    #migrate.init_app(app, db)
 
 
 def initialize_logging(app: Flask):
