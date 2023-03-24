@@ -2,7 +2,6 @@ import logging
 import os
 import sys
 
-from apifairy import APIFairy
 from flask import Flask
 from flask.logging import default_handler
 from flask_migrate import Migrate
@@ -16,8 +15,6 @@ logtail_handler = LogtailHandler(
     source_token=os.getenv("LOGTAIL_TOKEN"), level=logging.DEBUG
 )
 
-
-apifairy = APIFairy()
 db = SQLAlchemy()
 migrate = Migrate()
 # dictConfig(
