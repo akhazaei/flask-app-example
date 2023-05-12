@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 
+from posthog import Posthog
 from flask import Flask
 from flask.logging import default_handler
 from flask_migrate import Migrate
@@ -17,30 +18,10 @@ logtail_handler = LogtailHandler(
 
 db = SQLAlchemy()
 migrate = Migrate()
-# dictConfig(
-#     {
-#         "version": 1,
-#         "formatters": {
-#             "default": {
-#                 "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
-#             }
-#         },
-#         "handlers": {
-#             "console": {
-#                 "class": "logging.StreamHandler",
-#                 "stream": "ext://sys.stdout",
-#                 "formatter": "default",
-#             },
-#             "logtail": {
-#                 "class": "logtail.LogtailHandler",
-#                 "source_token": os.getenv("LOGTAIL_TOKEN"),
-#                 "formatter": "default",
-#             },
-#         },
-#         "root": {"level": "DEBUG", "handlers": ["console", "logtail"]},
-#     }
-# )
-
+posthog = Posthog(
+    project_api_key=os.getenv("POSTHOG_API_KEY", None),
+    host=os.getenv("POSTHOG_HOST", None),
+)
 
 def create_app():
     """

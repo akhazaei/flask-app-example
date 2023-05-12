@@ -5,3 +5,4 @@ gunicorn==20.1.0
 logtail-python==0.2.2
 psycopg2-binary==2.9.5
 SQLAlchemy==2.0.4
+posthog

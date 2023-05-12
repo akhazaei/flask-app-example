@@ -7,6 +7,12 @@ def log_after_request(response):
     total_time = time.perf_counter() - app_ctx.start
     latency_ms = int(total_time * 1000)
 
+    id = os.getenv("ENVIRONMENT") + "_testID"
+    resp = posthog.identify(
+        id, {"display_name": "TEST VALUE"}
+    )
+    print(resp)
+
     current_app.logger.info(
         "%s %s %s %s %s",
         request.remote_addr,
