@@ -12,9 +12,11 @@ from logtail import LogtailHandler
 from src.logging_helpers import (log_after_request,
                                  save_logging_context_before_request)
 
-logtail_handler = LogtailHandler(
-    source_token=os.getenv("LOGTAIL_TOKEN"), level=logging.DEBUG
-)
+logtail_handler = None
+if os.getenv("LOGTAIL_TOKEN") is not None:
+    logtail_handler = LogtailHandler(
+        source_token=os.getenv("LOGTAIL_TOKEN"), level=logging.DEBUG
+    )
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -32,6 +34,7 @@ def create_app():
 
    
     app.secret_key = b"\x18\xc4\xd0&\xfd\xf3\xd2\xa1\x11\x88p\xb8\xe6\x0f'\xbf"
+    app.posthog = posthog
 
     initialize_logging(app)
     register_blueprints(app)
@@ -54,7 +57,8 @@ def initialize_logging(app: Flask):
 
     app.logger.level = logging.DEBUG
     app.logger.removeHandler(default_handler)
-    app.logger.addHandler(logtail_handler)
+    if logtail_handler is not None:
+        app.logger.addHandler(logtail_handler)
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
 
     app.logger.log(logging.INFO, "Logging initialized")

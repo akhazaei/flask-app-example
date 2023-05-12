@@ -1,3 +1,4 @@
+import os
 import uuid
 import time
 from flask import current_app, session, request, g as app_ctx
@@ -8,7 +9,7 @@ def log_after_request(response):
     latency_ms = int(total_time * 1000)
 
     id = os.getenv("ENVIRONMENT") + "_testID"
-    resp = posthog.identify(
+    resp = current_app.posthog.identify(
         id, {"display_name": "TEST VALUE"}
     )
     print(resp)
